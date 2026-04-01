@@ -28,14 +28,39 @@ function App() {
     localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
 
+  // Добавляем товар в корзину
   const addToCart = (id, name, image, price) => {
-    setCart([...cart, { id, name, image, price }]);
-    alert("Товар добавлен в корзину");
+    const itemIndex = cart.findIndex((item) => item.id === id);
+    if (itemIndex !== -1) {
+      // если товар уже в корзине, увеличиваем количество
+      const newCart = [...cart];
+      newCart[itemIndex].quantity += 1;
+      setCart(newCart);
+    } else {
+      setCart([...cart, { id, name, image, price, quantity: 1 }]);
+    }
   };
 
-  const removeItem = (index) => {
-    const newCart = [...cart];
-    newCart.splice(index, 1);
+  const removeItem = (id) => {
+    const newCart = cart.filter((item) => item.id !== id);
+    setCart(newCart);
+  };
+
+  const increment = (id) => {
+    const newCart = cart.map((item) => {
+      if (item.id === id) item.quantity += 1;
+      return item;
+    });
+    setCart(newCart);
+  };
+
+  const decrement = (id) => {
+    const newCart = cart
+      .map((item) => {
+        if (item.id === id) item.quantity -= 1;
+        return item;
+      })
+      .filter((item) => item.quantity > 0); // удаляем если 0
     setCart(newCart);
   };
 
@@ -47,7 +72,6 @@ function App() {
     <div>
       <header>
         <h1>Кондитерские Изделия</h1>
-
         <div className="top-bar">
           <input
             className="search"
@@ -55,11 +79,9 @@ function App() {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
-
           <button onClick={() => setCartOpen(true)}>
-            Корзина ({cart.length})
+            Корзина ({cart.reduce((sum, item) => sum + item.quantity, 0)})
           </button>
-
           <div className="contacts">
             <p>📍 Бишкек, Киевская 114/1</p>
             <p>📞 +996 700 123 456</p>
@@ -99,15 +121,16 @@ function App() {
         <h2>Корзина</h2>
 
         <div id="cart-items">
-          {cart.map((item, index) => (
-            <div className="cart-item" key={index}>
+          {cart.map((item) => (
+            <div className="cart-item" key={item.id}>
               <span>
-                {item.name} - {item.price} сом
+                {item.name} - {item.price} сом × {item.quantity}
               </span>
-
-              <span className="remove" onClick={() => removeItem(index)}>
-                ❌
-              </span>
+              <div>
+                <button onClick={() => decrement(item.id)}>➖</button>
+                <button onClick={() => increment(item.id)}>➕</button>
+                <button onClick={() => removeItem(item.id)}>❌</button>
+              </div>
             </div>
           ))}
         </div>
