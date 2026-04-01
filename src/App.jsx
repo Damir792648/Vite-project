@@ -28,11 +28,9 @@ function App() {
     localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
 
-  // Добавляем товар в корзину
   const addToCart = (id, name, image, price) => {
     const itemIndex = cart.findIndex((item) => item.id === id);
     if (itemIndex !== -1) {
-      // если товар уже в корзине, увеличиваем количество
       const newCart = [...cart];
       newCart[itemIndex].quantity += 1;
       setCart(newCart);
@@ -83,8 +81,8 @@ function App() {
             Корзина ({cart.reduce((sum, item) => sum + item.quantity, 0)})
           </button>
           <div className="contacts">
-            <p>📍 Бишкек, Киевская 114/1</p>
-            <p>📞 +996 700 123 456</p>
+            <p>Бишкек, Киевская 114/1</p>
+            <p> +996 700 123 456</p>
           </div>
         </div>
       </header>
@@ -127,9 +125,9 @@ function App() {
                 {item.name} - {item.price} сом × {item.quantity}
               </span>
               <div>
-                <button onClick={() => decrement(item.id)}>➖</button>
-                <button onClick={() => increment(item.id)}>➕</button>
-                <button onClick={() => removeItem(item.id)}>❌</button>
+                <button onClick={() => decrement(item.id)}>-</button>
+                <button onClick={() => increment(item.id)}>+</button>
+                <button onClick={() => removeItem(item.id)}>x</button>
               </div>
             </div>
           ))}
