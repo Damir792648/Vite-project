@@ -9,25 +9,26 @@ function App() {
 
   const navigate = useNavigate();
 
+  
   useEffect(() => {
     fetch("https://www.themealdb.com/api/json/v1/1/filter.php?c=Dessert")
       .then((res) => res.json())
       .then((data) => {
         if (!data.meals) return;
-
         const productsWithPrice = data.meals.map((p) => ({
           ...p,
           price: Math.floor(Math.random() * 200) + 100,
         }));
-
         setProducts(productsWithPrice);
       });
   }, []);
 
+ 
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
 
+  
   const addToCart = (id, name, image, price) => {
     const itemIndex = cart.findIndex((item) => item.id === id);
     if (itemIndex !== -1) {
@@ -39,11 +40,13 @@ function App() {
     }
   };
 
+  
   const removeItem = (id) => {
     const newCart = cart.filter((item) => item.id !== id);
     setCart(newCart);
   };
 
+ 
   const increment = (id) => {
     const newCart = cart.map((item) => {
       if (item.id === id) item.quantity += 1;
@@ -52,6 +55,7 @@ function App() {
     setCart(newCart);
   };
 
+  
   const decrement = (id) => {
     const newCart = cart
       .map((item) => {
@@ -62,9 +66,13 @@ function App() {
     setCart(newCart);
   };
 
+  
   const filteredProducts = products.filter((p) =>
     p.strMeal.toLowerCase().includes(search.toLowerCase())
   );
+
+  
+  const totalPrice = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   return (
     <div>
@@ -81,7 +89,7 @@ function App() {
             Корзина ({cart.reduce((sum, item) => sum + item.quantity, 0)})
           </button>
           <div className="contacts">
-            <p>Бишкек, Киевская 114/1</p>
+            <p> Бишкек, Киевская 114/1</p>
             <p> +996 700 123 456</p>
           </div>
         </div>
@@ -97,7 +105,6 @@ function App() {
             <img src={product.strMealThumb} alt={product.strMeal} />
             <h3>{product.strMeal}</h3>
             <p>Цена: {product.price} сом</p>
-
             <button
               onClick={(e) => {
                 e.stopPropagation();
@@ -122,7 +129,7 @@ function App() {
           {cart.map((item) => (
             <div className="cart-item" key={item.id}>
               <span>
-                {item.name} - {item.price} сом × {item.quantity}
+                {item.name} - {item.price * item.quantity} сом ({item.price} × {item.quantity})
               </span>
               <div>
                 <button onClick={() => decrement(item.id)}>-</button>
@@ -132,6 +139,8 @@ function App() {
             </div>
           ))}
         </div>
+
+        <h3>Итого: {totalPrice} сом</h3>
 
         <button onClick={() => setCartOpen(false)}>Закрыть</button>
       </div>
