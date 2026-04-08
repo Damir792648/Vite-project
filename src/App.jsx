@@ -109,9 +109,15 @@ function App() {
             onChange={(e) => setSearch(e.target.value)}
           />
 
-          <button onClick={() => setCartOpen(true)}>
-            Корзина ({cart.reduce((s, i) => s + i.quantity, 0)})
-          </button>
+          <div>
+            <button onClick={() => navigate("/contacts")}>
+              Контакты
+            </button>
+
+            <button onClick={() => setCartOpen(true)}>
+              Корзина ({cart.reduce((s, i) => s + i.quantity, 0)})
+            </button>
+          </div>
         </div>
       </header>
 
@@ -150,9 +156,11 @@ function App() {
           <div key={item.id}>
             {item.name} ({item.quantity}) = {item.price * item.quantity} сом
 
-            <button onClick={() => decrement(item.id)}>-</button>
-            <button onClick={() => increment(item.id)}>+</button>
-            <button onClick={() => removeItem(item.id)}>x</button>
+            <div>
+              <button onClick={() => decrement(item.id)}>-</button>
+              <button onClick={() => increment(item.id)}>+</button>
+              <button onClick={() => removeItem(item.id)}>x</button>
+            </div>
           </div>
         ))}
 
