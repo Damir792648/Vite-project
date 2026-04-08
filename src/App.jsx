@@ -69,7 +69,6 @@ function App() {
     0
   );
 
-  // ✅ POST запрос
   const checkout = () => {
     if (cart.length === 0) {
       alert("Корзина пустая");
@@ -100,7 +99,7 @@ function App() {
   return (
     <div>
       <header>
-        <h1>Кондитерские Изделия</h1>
+        <h1>Кондитерские Изделия от MDS</h1>
 
         <div className="top-bar">
           <input
