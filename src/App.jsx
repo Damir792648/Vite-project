@@ -6,6 +6,7 @@ function App() {
   const [cart, setCart] = useState(JSON.parse(localStorage.getItem("cart")) || []);
   const [search, setSearch] = useState("");
   const [cartOpen, setCartOpen] = useState(false);
+  const [contactsOpen, setContactsOpen] = useState(false);
 
   const navigate = useNavigate();
 
@@ -75,25 +76,9 @@ function App() {
       return;
     }
 
-    fetch("https://jsonplaceholder.typicode.com/posts", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        order: cart,
-        total: totalPrice,
-      }),
-    })
-      .then((res) => res.json())
-      .then(() => {
-        alert("Заказ оформлен!");
-        setCart([]);
-        setCartOpen(false);
-      })
-      .catch(() => {
-        alert("Ошибка при отправке");
-      });
+    alert("Заказ оформлен!");
+    setCart([]);
+    setCartOpen(false);
   };
 
   return (
@@ -109,9 +94,15 @@ function App() {
             onChange={(e) => setSearch(e.target.value)}
           />
 
-          <button onClick={() => setCartOpen(true)}>
-            Корзина ({cart.reduce((s, i) => s + i.quantity, 0)})
-          </button>
+          <div>
+            <button onClick={() => setContactsOpen(true)}>
+              Контакты
+            </button>
+
+            <button onClick={() => setCartOpen(true)}>
+              Корзина ({cart.reduce((s, i) => s + i.quantity, 0)})
+            </button>
+          </div>
         </div>
       </header>
 
@@ -143,24 +134,46 @@ function App() {
         ))}
       </section>
 
-      <div className={`cart ${cartOpen ? "open" : ""}`}>
-        <h2>Корзина</h2>
+      {/* КОРЗИНА ПО ЦЕНТРУ */}
+      {cartOpen && (
+        <div className="overlay" onClick={() => setCartOpen(false)}>
+          <div className="modal" onClick={(e) => e.stopPropagation()}>
+            <h2>Корзина</h2>
 
-        {cart.map((item) => (
-          <div key={item.id}>
-            {item.name} ({item.quantity}) = {item.price * item.quantity} сом
+            {cart.map((item) => (
+              <div key={item.id}>
+                {item.name} ({item.quantity}) = {item.price * item.quantity} сом
 
-            <button onClick={() => decrement(item.id)}>-</button>
-            <button onClick={() => increment(item.id)}>+</button>
-            <button onClick={() => removeItem(item.id)}>x</button>
+                <div>
+                  <button onClick={() => decrement(item.id)}>-</button>
+                  <button onClick={() => increment(item.id)}>+</button>
+                  <button onClick={() => removeItem(item.id)}>x</button>
+                </div>
+              </div>
+            ))}
+
+            <h3>Итого: {totalPrice} сом</h3>
+
+            <button onClick={checkout}>Оформить заказ</button>
+            <button onClick={() => setCartOpen(false)}>Закрыть</button>
           </div>
-        ))}
+        </div>
+      )}
 
-        <h3>Итого: {totalPrice} сом</h3>
+      {/* КОНТАКТЫ */}
+      {contactsOpen && (
+        <div className="overlay" onClick={() => setContactsOpen(false)}>
+          <div className="modal" onClick={(e) => e.stopPropagation()}>
+            <h2>Контакты</h2>
+            <p><b>Магазин:</b> MDS</p>
+            <p><b>Телефон:</b> +996 700 123 456</p>
+            <p><b>Email:</b> mds@example.com</p>
+            <p><b>Адрес:</b> Бишкек, ул. Чуй 123</p>
 
-        <button onClick={checkout}>Оформить заказ</button>
-        <button onClick={() => setCartOpen(false)}>Закрыть</button>
-      </div>
+            <button onClick={() => setContactsOpen(false)}>Закрыть</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
