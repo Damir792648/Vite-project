@@ -23,7 +23,13 @@ function ProductPage() {
   }, [cart]);
 
   const addToCart = () => {
-    if (product) {
+    const itemIndex = cart.findIndex((item) => item.id === product.idMeal);
+
+    if (itemIndex !== -1) {
+      const newCart = [...cart];
+      newCart[itemIndex].quantity += 1;
+      setCart(newCart);
+    } else {
       setCart([
         ...cart,
         {
@@ -31,26 +37,28 @@ function ProductPage() {
           name: product.strMeal,
           image: product.strMealThumb,
           price: product.price,
+          quantity: 1,
         },
       ]);
-      alert("Товар добавлен в корзину");
     }
+
+    alert("Добавлено в корзину");
   };
 
   if (!product) return <p>Загрузка...</p>;
 
   return (
-    <div className="product-page">
+    <div>
       <h1>{product.strMeal}</h1>
       <img src={product.strMealThumb} alt={product.strMeal} />
 
-      <p><strong>Цена:</strong> {product.price} сом</p>
-      <p><strong>Описание:</strong> {product.strInstructions}</p>
+      <p>Цена: {product.price} сом</p>
+      <p>{product.strInstructions}</p>
 
       <button onClick={addToCart}>Добавить в корзину</button>
 
-      <br /><br />
-      <Link to="/">← Назад</Link>
+      <br />
+      <Link to="/">Назад</Link>
     </div>
   );
 }
