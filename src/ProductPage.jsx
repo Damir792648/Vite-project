@@ -48,7 +48,7 @@ function ProductPage() {
   if (!product) return <p>Загрузка...</p>;
 
   return (
-    <div className="product-page">
+    <div>
       <h1>{product.strMeal}</h1>
       <img src={product.strMealThumb} alt={product.strMeal} />
 
