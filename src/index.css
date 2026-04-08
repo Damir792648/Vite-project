@@ -46,27 +46,32 @@ header {
 
 .cart {
   position: fixed;
-  right: -320px;
+  right: -420px;
   top: 0;
-  width: 300px;
+  width: 400px;
   height: 100%;
   background: white;
-  padding: 20px;
+  padding: 25px;
   transition: 0.3s;
+  box-shadow: -5px 0 15px rgba(0,0,0,0.2);
 }
 
 .cart.open {
   right: 0;
 }
 
-.cart-item {
-  display: flex;
-  justify-content: space-between;
+.cart div {
+  margin-bottom: 10px;
 }
 
-.remove {
+.cart button {
+  margin: 3px;
+  padding: 5px 8px;
+  border-radius: 6px;
+  border: none;
+  background: #ff69b4;
+  color: white;
   cursor: pointer;
-  color: red;
 }
 
 .product-page {
