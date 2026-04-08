@@ -1,18 +1,15 @@
+import React from "react";
+import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import App from "./App";
 import ProductPage from "./ProductPage";
-import Contacts from "./Contacts";
+import "./index.css";
 
-function Router() {
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<App />} />
-        <Route path="/product/:id" element={<ProductPage />} />
-        <Route path="/contacts" element={<Contacts />} />
-      </Routes>
-    </BrowserRouter>
-  );
-}
-
-export default Router;
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <BrowserRouter>
+    <Routes>
+      <Route path="/" element={<App />} />
+      <Route path="/product/:id" element={<ProductPage />} />
+    </Routes>
+  </BrowserRouter>
+);
