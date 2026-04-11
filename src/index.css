@@ -13,8 +13,8 @@ header {
 
 .top-bar {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 20px;
 }
 
 .search {
@@ -51,7 +51,7 @@ header {
   object-fit: cover;
 }
 
-/* 🔥 НОВАЯ КОРЗИНА ПО ЦЕНТРУ */
+/* КОРЗИНА ПО ЦЕНТРУ */
 .overlay {
   position: fixed;
   top: 0;
@@ -63,7 +63,6 @@ header {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
 }
 
 .modal {
@@ -74,12 +73,6 @@ header {
   max-height: 80vh;
   overflow-y: auto;
   text-align: center;
-  box-shadow: 0 5px 20px rgba(0,0,0,0.3);
-}
-
-/* элементы корзины */
-.modal div {
-  margin-bottom: 10px;
 }
 
 /* кнопки */
@@ -91,7 +84,6 @@ header {
   background: #ff69b4;
   color: white;
   cursor: pointer;
-  transition: 0.2s;
 }
 
 .modal button:hover {
