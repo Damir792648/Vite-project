@@ -141,7 +141,6 @@ function App() {
         ))}
       </section>
 
-      {/* КОРЗИНА */}
       {cartOpen && (
         <div className="overlay" onClick={() => setCartOpen(false)}>
           <div className="modal" onClick={(e) => e.stopPropagation()}>
