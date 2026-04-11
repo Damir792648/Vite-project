@@ -4,7 +4,6 @@ body {
   background: #fff0f5;
 }
 
-/* HEADER */
 header {
   background: #ff69b4;
   color: white;
@@ -23,7 +22,6 @@ header {
   border: none;
 }
 
-/* PRODUCTS */
 #menu {
   display: flex;
   flex-wrap: wrap;
@@ -51,7 +49,6 @@ header {
   object-fit: cover;
 }
 
-/* КОРЗИНА ПО ЦЕНТРУ */
 .overlay {
   position: fixed;
   top: 0;
@@ -75,7 +72,6 @@ header {
   text-align: center;
 }
 
-/* кнопки */
 .modal button {
   margin: 4px;
   padding: 6px 10px;
@@ -90,7 +86,6 @@ header {
   background: #ff1493;
 }
 
-/* PRODUCT PAGE */
 .product-page {
   text-align: center;
   padding: 40px;
