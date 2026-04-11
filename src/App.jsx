@@ -14,10 +14,12 @@ function App() {
       .then((res) => res.json())
       .then((data) => {
         if (!data.meals) return;
+
         const productsWithPrice = data.meals.map((p) => ({
           ...p,
           price: Math.floor(Math.random() * 200) + 100,
         }));
+
         setProducts(productsWithPrice);
       });
   }, []);
@@ -80,12 +82,8 @@ function App() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        order: cart,
-        total: totalPrice,
-      }),
+      body: JSON.stringify({ order: cart, total: totalPrice }),
     })
-      .then((res) => res.json())
       .then(() => {
         alert("Заказ оформлен!");
         setCart([]);
@@ -99,7 +97,7 @@ function App() {
   return (
     <div>
       <header>
-        <h1>Кондитерские Изделия от MDS</h1>
+        <h1>Кондитерские изделия</h1>
 
         <div className="top-bar">
           <input
@@ -143,24 +141,35 @@ function App() {
         ))}
       </section>
 
-      <div className={`cart ${cartOpen ? "open" : ""}`}>
-        <h2>Корзина</h2>
+      {/* КОРЗИНА */}
+      {cartOpen && (
+        <div className="overlay" onClick={() => setCartOpen(false)}>
+          <div className="modal" onClick={(e) => e.stopPropagation()}>
+            <h2>Корзина</h2>
 
-        {cart.map((item) => (
-          <div key={item.id}>
-            {item.name} ({item.quantity}) = {item.price * item.quantity} сом
+            {cart.length === 0 ? (
+              <p>Пусто</p>
+            ) : (
+              cart.map((item) => (
+                <div key={item.id}>
+                  {item.name} ({item.quantity}) ={" "}
+                  {item.price * item.quantity} сом
+                  <br />
 
-            <button onClick={() => decrement(item.id)}>-</button>
-            <button onClick={() => increment(item.id)}>+</button>
-            <button onClick={() => removeItem(item.id)}>x</button>
+                  <button onClick={() => decrement(item.id)}>-</button>
+                  <button onClick={() => increment(item.id)}>+</button>
+                  <button onClick={() => removeItem(item.id)}>x</button>
+                </div>
+              ))
+            )}
+
+            <h3>Итого: {totalPrice} сом</h3>
+
+            <button onClick={checkout}>Оформить заказ</button>
+            <button onClick={() => setCartOpen(false)}>Закрыть</button>
           </div>
-        ))}
-
-        <h3>Итого: {totalPrice} сом</h3>
-
-        <button onClick={checkout}>Оформить заказ</button>
-        <button onClick={() => setCartOpen(false)}>Закрыть</button>
-      </div>
+        </div>
+      )}
     </div>
   );
 }
